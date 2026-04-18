@@ -1,3 +1,4 @@
+using Unity.Behavior;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
     private float targetSpeed;
     private float speedVelocity;
 
+    [SerializeField] private BehaviorGraphAgent ally;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -34,11 +37,27 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        //.started: cuando empieza a hacerse la acción
-        //.performed: se dispara cuando hay cambios de valor
-        //.canceled: cuando esa acción se cancela
         input.actions["Move"].performed += UpdateMovement;
         input.actions["Move"].canceled += UpdateMovement;
+        input.actions["AllyIdle"].started += AllyCommands;
+        input.actions["AllyFollow"].started += AllyCommands;
+        input.actions["AllyFightStance"].started += AllyCommands;
+    }
+
+    private void AllyCommands(InputAction.CallbackContext obj)
+    {
+        switch (obj.action.name)
+        {
+            case "AllyIdle":
+              ally.Graph.BlackboardReference.SetVariableValue("PlayerAllyState", PlayerAllyState.Idle); 
+                break;
+            case "AllyFollow":
+                ally.Graph.BlackboardReference.SetVariableValue("PlayerAllyState", PlayerAllyState.Follow);
+                break;
+            case "AllyFightStance":
+                ally.Graph.BlackboardReference.SetVariableValue("PlayerAllyState", PlayerAllyState.Protect);
+                break;
+        }
     }
 
     private void UpdateMovement(InputAction.CallbackContext obj)
@@ -50,6 +69,9 @@ public class PlayerController : MonoBehaviour
     {
         input.actions["Move"].performed -= UpdateMovement;
         input.actions["Move"].canceled -= UpdateMovement;
+        input.actions["AllyIdle"].started -= AllyCommands;
+        input.actions["AllyFollow"].started -= AllyCommands;
+        input.actions["AllyFightStance"].started -= AllyCommands;
     }
     void Update()
     {

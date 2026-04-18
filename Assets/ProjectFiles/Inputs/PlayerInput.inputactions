@@ -13,6 +13,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "AllyFollow",
+                    "type": "Button",
+                    "id": "012490ae-a995-450a-a894-5bb0cce68602",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AllyIdle",
+                    "type": "Button",
+                    "id": "d5806e46-56f4-4bf1-94fa-a8d69a4a8627",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AllyFightStance",
+                    "type": "Button",
+                    "id": "8ebb369c-b49f-4620-b991-888f8363798a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -70,6 +97,39 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0dba4a3a-db2a-462c-b318-23b0b7cb3e71",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AllyFollow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "169e23cd-94f1-4054-b0fc-368fbbc5437e",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AllyIdle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c7dec174-7186-44ab-a7d7-75899566777f",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AllyFightStance",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
