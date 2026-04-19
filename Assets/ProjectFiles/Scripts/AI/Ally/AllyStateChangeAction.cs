@@ -10,10 +10,22 @@ public partial class AllyStateChangeAction : Action
 {
     [SerializeReference] public BlackboardVariable<PlayerAllyState> CurrentState;
     [SerializeReference] public BlackboardVariable<PlayerAllyState> OriginalState;
-    
+    [SerializeReference] public BlackboardVariable<bool> IsCrouching;
+    private bool wasCrouching;
+
+    protected override Status OnStart()
+    {
+        wasCrouching = IsCrouching.Value;
+        return Status.Running;
+    }
+
     protected override Status OnUpdate()
     {
-        return CurrentState.Value !=  OriginalState.Value ? Status.Success : Status.Running;
+        if (CurrentState.Value != OriginalState.Value || IsCrouching.Value != wasCrouching)
+        {
+            return Status.Success;
+        }
+        return Status.Running;
     }
 }
 

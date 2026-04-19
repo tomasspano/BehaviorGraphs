@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private float speedVelocity;
 
     [SerializeField] private BehaviorGraphAgent ally;
+    private bool isAllyCrouching;
 
     private void Awake()
     {
@@ -42,8 +43,12 @@ public class PlayerController : MonoBehaviour
         input.actions["AllyIdle"].started += AllyCommands;
         input.actions["AllyFollow"].started += AllyCommands;
         input.actions["AllyFightStance"].started += AllyCommands;
+        input.actions["AllyCrouch"].started += AllyCrouch;
     }
-
+    private void UpdateMovement(InputAction.CallbackContext obj)
+    {
+        inputVector = obj.ReadValue<Vector2>();
+    }
     private void AllyCommands(InputAction.CallbackContext obj)
     {
         switch (obj.action.name)
@@ -59,12 +64,6 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-
-    private void UpdateMovement(InputAction.CallbackContext obj)
-    {
-        inputVector = obj.ReadValue<Vector2>();
-    }
-
     private void OnDisable()
     {
         input.actions["Move"].performed -= UpdateMovement;
@@ -72,12 +71,12 @@ public class PlayerController : MonoBehaviour
         input.actions["AllyIdle"].started -= AllyCommands;
         input.actions["AllyFollow"].started -= AllyCommands;
         input.actions["AllyFightStance"].started -= AllyCommands;
+        input.actions["AllyCrouch"].started -= AllyCrouch;
     }
     void Update()
     {
         MoveAndRotate();
     }
-
     private void MoveAndRotate()
     {
         //calcula la velocidad objetivo para teclado y joystick
@@ -100,6 +99,11 @@ public class PlayerController : MonoBehaviour
 
         anim.SetFloat("Blend", currentSpeed / movementSpeed);
         controller.Move(horizontalMovement * Time.deltaTime);
+    }
+    private void AllyCrouch(InputAction.CallbackContext obj)
+    {
+        isAllyCrouching = !isAllyCrouching;
+        ally.BlackboardReference.SetVariableValue("isCrouching", isAllyCrouching);
     }
 
 }
