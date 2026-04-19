@@ -10,7 +10,12 @@ public partial class DetectTargetAction : Action
 {
     [SerializeReference] public BlackboardVariable<SensorSystem> Sensor;
     [SerializeReference] public BlackboardVariable<GameObject> Target;
-    
+
+    protected override Status OnStart()
+    {
+        return Status.Running;
+    }
+
     protected override Status OnUpdate()
     {
         //busca un posible objetivo hasta que lo detecta
